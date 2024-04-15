@@ -1,0 +1,16 @@
+@font-face {
+  font-family: Archivo;
+  src: url('./fonts/archivo.ttf');
+}
+
+:root {
+  --el-color-primary: #6c63ff !important;
+}
+
+* {
+  font-family: Archivo, sans-serif;
+}
+
+p {
+  color: #a3a6ad;
+}
