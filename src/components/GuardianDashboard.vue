@@ -1,7 +1,7 @@
 <script lang="ts">
 import SafeguardedCard from '@/components/SafeguardedCard.vue';
 import { sendContractTx } from '@/lib/config';
-import { deleteSafeguarded } from '@/shared/api.client';
+import { deleteSafeguarded, getSafeguarded } from '@/shared/api.client';
 import axios from 'axios';
 import { ElNotification } from 'element-plus';
 import { defineComponent } from 'vue';
@@ -20,9 +20,7 @@ export default defineComponent({
   },
   methods: {
     async fetchSafeGuarded() {
-      const { data } = await axios.get('http://localhost:9000/guardians/safeguarded', {
-        headers: { Authorization: `Bearer ${window.localStorage.getItem('token')}` }
-      });
+      const { data } = await getSafeguarded();
       this.safeguardedList = (data.safeguarded as { safeguarded: string }[]).map(
         ({ safeguarded }) => safeguarded
       );

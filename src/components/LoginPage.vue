@@ -1,10 +1,10 @@
 <script lang="ts">
 import { getClientAddress } from '@/lib/config';
 import { isTokenValid } from '@/router/index';
-import axios from 'axios';
 import { ElNotification } from 'element-plus';
 import { defineComponent } from 'vue';
-
+import { login } from '@/shared/api.client';
+ 
 export default defineComponent({
   created() {
     if (isTokenValid()) this.$router.push('/safeguarded-dashboard');
@@ -26,7 +26,7 @@ export default defineComponent({
     async connect() {
       try {
         const messages = await this.getSignedMessage();
-        const { data } = await axios.post('http://localhost:9000/auth/login', messages);
+        const { data } = await login(messages);
 
         window.localStorage.setItem('token', data.token);
         this.$router.push('/safeguarded-dashboard');

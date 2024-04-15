@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { Guardian } from './guardian.interface';
 
-const API_URL = 'http://localhost:9000';
+const API_URL = import.meta.env.VITE_API_URL;
 
 export function saveGuardian({ address, name, phone, email }: Guardian) {
   return axios
@@ -35,4 +35,20 @@ export function deleteSafeguarded(address: string) {
      .catch(() => {
        throw new Error('error');
      });
+}
+
+export function getSafeguarded() {
+  return axios.get(API_URL + '/guardians/safeguarded', {
+    headers: { Authorization: `Bearer ${window.localStorage.getItem('token')}` }
+  });
+}
+
+export function getGuardians() {
+  return axios.get(API_URL + '/guardians', {
+    headers: { Authorization: `Bearer ${window.localStorage.getItem('token')}` }
+  });
+}
+
+export function login(messages: { signature: string, message: string }) {
+  return axios.post(API_URL + '/auth/login', messages);
 }

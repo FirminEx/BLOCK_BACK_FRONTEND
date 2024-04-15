@@ -3,9 +3,8 @@ import AddGuardianCard from '@/components/AddGuardianCard.vue';
 import BackupWalletCard from '@/components/BackupWalletCard.vue';
 import GuardianCard from '@/components/GuardianCard.vue';
 import { getClientAddress, readContract, sendContractTx } from '@/lib/config';
-import { deleteGuardian, saveGuardian } from '@/shared/api.client';
+import { deleteGuardian, saveGuardian, getGuardians } from '@/shared/api.client';
 import type { DbGuardian, Guardian } from '@/shared/guardian.interface';
-import axios from 'axios';
 import { ElNotification } from 'element-plus';
 import { defineComponent } from 'vue';
 
@@ -78,9 +77,7 @@ export default defineComponent({
 
       const contractAddresses = await readContract('getGuardians', [address]);
 
-      const { data } = await axios.get('http://localhost:9000/guardians', {
-        headers: { Authorization: `Bearer ${window.localStorage.getItem('token')}` }
-      });
+      const { data } = await getGuardians();
       const dbGuardians = data.guardians as DbGuardian[];
 
       await this.displaySyncError(contractAddresses as string[], dbGuardians);
